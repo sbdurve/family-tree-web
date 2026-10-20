@@ -91,7 +91,7 @@ INSERT OR IGNORE INTO people (id, full_name, parent_id, tooltip, image_url, stat
 INSERT OR IGNORE INTO people (id, full_name, parent_id, tooltip, image_url, status) VALUES ('Parnil', 'Parnil   Sachin Deshpande', 'Vrushali', '7', '', 'approved');
 INSERT OR IGNORE INTO people (id, full_name, parent_id, tooltip, image_url, status) VALUES ('Jaee', 'Jaee Chandrashekhar patankar', 'Swati', '7', '', 'approved');
 INSERT OR IGNORE INTO people (id, full_name, parent_id, tooltip, image_url, status) VALUES ('Sailee', 'Sailee Rahul Gadkari', 'Manisha', '7', '', 'approved');
-INSERT OR IGNORE INTO people (id, full_name, parent_id, tooltip, image_url, status) VALUES ('Lochan2', 'Lochan Kanchan Chitnis', 'Kanchan', '7', '', 'approved');
+INSERT OR IGNORE INTO people (id, full_name, parent_id, tooltip, image_url, status) VALUES ('Lochan2', 'Lochan Kanchan Chitnis', 'Ruta', '7', '', 'approved');
 INSERT OR IGNORE INTO people (id, full_name, parent_id, tooltip, image_url, status) VALUES ('Aniket', 'Aniket Rajeev Saawant', 'Vidula', '7', '', 'approved');
 INSERT OR IGNORE INTO people (id, full_name, parent_id, tooltip, image_url, status) VALUES ('Akash', 'Akash Rajeev Saawant', 'Vidula', '7', '', 'approved');
 INSERT OR IGNORE INTO people (id, full_name, parent_id, tooltip, image_url, status) VALUES ('Grahil', 'Grahil Aniket Saawant', 'Aniket', '8', '', 'approved');
