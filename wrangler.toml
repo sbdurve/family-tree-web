@@ -6,7 +6,7 @@ pages_build_output_dir = ".vercel/output/static"
 [[d1_databases]]
 binding = "DB"
 database_name = "family-tree-db"
-database_id = "c6a81b20-aeb7-4468-8513-48449e73bc17"
+database_id = "12e584ad-449c-4154-8c4e-d3f5f337f8b8"
 
 [[r2_buckets]]
 binding = "R2"
