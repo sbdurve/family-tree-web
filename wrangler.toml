@@ -13,4 +13,4 @@ binding = "R2"
 bucket_name = "family-tree-images"
 
 [vars]
-NEXT_PUBLIC_R2_PUBLIC_URL = "https://images.your-domain.workers.dev"
+NEXT_PUBLIC_R2_PUBLIC_URL = "https://pub-28a67be5a6df4bdda0720da3a12612d1.r2.dev"
