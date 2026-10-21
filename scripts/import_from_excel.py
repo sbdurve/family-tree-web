@@ -21,7 +21,7 @@ except ImportError:
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(SCRIPT_DIR)
-EXCEL_PATH = os.path.join(os.path.dirname(ROOT_DIR), "data.xlsx")
+EXCEL_PATH = os.path.join(ROOT_DIR, "data.xlsx")
 OUTPUT_PATH = os.path.join(ROOT_DIR, "migrations", "0002_import.sql")
 
 # ────────────────────────────────────────────────────────────────────────────
