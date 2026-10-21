@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Export the existing remote Cloudflare D1 family-tree records to Excel.
+Export the existing remote Cloudflare D1 family-tree records to Excel.    
 
 Output:
     scripts/data_export.xlsx
