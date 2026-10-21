@@ -13,7 +13,7 @@
     "migrate:local": "wrangler d1 execute family-tree-db --local --file=migrations/0001_initial.sql",
     "migrate:remote": "wrangler d1 execute family-tree-db --file=migrations/0001_initial.sql",
     "import:local": "wrangler d1 execute family-tree-db --local --file=migrations/0002_import.sql",
-    "import:remote": "wrangler d1 execute family-tree-db --file=migrations/0002_import.sql"
+    "import:remote": "wrangler d1 execute family-tree-db --remote --file=migrations/0002_import.sql"
   },
   "dependencies": {
     "next": "^15.2.0",
