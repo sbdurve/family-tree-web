@@ -477,6 +477,7 @@ export default function FamilyTree({ people, spouses, links }: Props) {
             {/* Main card */}
             <div
               onClick={toggleNode}
+              title={person?.tooltip || person?.full_name || ''}
               style={{
                 background: isHighlighted ? '#fef3c7' : colors.bg,
                 border: isHighlighted ? '2px solid #f59e0b' : `1px solid ${colors.border}`,
