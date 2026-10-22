@@ -343,7 +343,8 @@ def main():
         if image_url:
             image_rows.append(
                 [
-                          image_url,
+                    safe_value(spouse.get("id")),
+                    image_url,
                 ]
             )
 
@@ -409,7 +410,7 @@ def main():
         [
             "person",
             "link",
-            "description",
+            "tooltip",
         ],
         link_rows,
     )
