@@ -51,8 +51,9 @@ const GEN_COLORS = [
   { border: '#059669', bg: '#ecfdf5', text: '#064e3b', label: 'Generation 4' },
   { border: '#d97706', bg: '#fffbeb', text: '#78350f', label: 'Generation 5' },
   { border: '#e11d48', bg: '#fff1f2', text: '#881337', label: 'Generation 6' },
+  { border: '#4f46e5', bg: '#eef2ff', text: '#312e81', label: 'Generation 7' },
+  { border: '#c026d3', bg: '#fdf4ff', text: '#701a75', label: 'Generation 8' },
 ];
-
 function getGenColor(gen: number) {
   return GEN_COLORS[Math.max(0, gen) % GEN_COLORS.length];
 }
