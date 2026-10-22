@@ -107,6 +107,7 @@ def main():
     GENERATION_PLACEHOLDERS = {
         "Generation_1", "Generation_2", "Generation_3",
         "Generation_4", "Generation_5", "Generation_6",
+        "Generation_7", "Generation_8", 
     }
 
     for row in main_rows:
