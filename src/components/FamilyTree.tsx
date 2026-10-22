@@ -295,6 +295,7 @@ function DetailPanel({ person, spouse, links, genLabel, onClose }: DetailPanelPr
                   <a
                     key={link.id}
                     href={link.url}
+                    title={link.description || 'View link'}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
