@@ -163,7 +163,7 @@ def main():
         for row in link_rows:
             pid  = safe_str(row.get("person"))
             url  = safe_str(row.get("link"))
-            desc = safe_str(row.get("description"))
+            desc = safe_str(row.get("tooltip"))
             if not pid or not url:
                 continue
             stmt = (
@@ -172,7 +172,6 @@ def main():
                 f");"
             )
             statements.append(stmt)
-
     # ── GALLERIES ────────────────────────────────────────────────────────────
     if gdrive_rows:
         statements.append("\n-- Galleries")
