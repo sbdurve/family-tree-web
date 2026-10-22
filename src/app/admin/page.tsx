@@ -300,12 +300,22 @@ export default function AdminPage() {
 
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-tan-800">Admin Dashboard</h1>
-        <button
-          onClick={() => fetch('/api/admin/login', { method: 'DELETE' }).finally(() => router.push('/admin/login'))}
-          className="text-sm text-tan-600 hover:text-tan-800 underline"
-        >
-          Sign out
-        </button>
+          <div className="flex items-center gap-4">
+              <a
+              href="PASTE_YOUR_GITHUB_ACTIONS_WORKFLOW_URL_HERE"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+              Backup D1 to Excel
+              </a>
+            <button
+              onClick={() => fetch('/api/admin/login', { method: 'DELETE' }).finally(() => router.push('/admin/login'))}
+              className="text-sm text-tan-600 hover:text-tan-800 underline"
+            >
+              Sign out
+            </button>
+       </div>
       </div>
 
       {/* Tabs */}
