@@ -463,7 +463,7 @@ export default function FamilyTree({ people, spouses, links }: Props) {
 
     const personLinks = linksMap.get(personId) ?? [];
     const spouseLinks = spouse ? (linksMap.get(spouse.id) ?? []) : [];
-    const hasDetails = !!(spouse || personLinks.length > 0 || spouseLinks.length > 0);
+    const hasDetails = true;
     return (
       <g>
         <foreignObject
