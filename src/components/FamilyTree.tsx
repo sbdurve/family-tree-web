@@ -737,8 +737,7 @@ export default function FamilyTree({ people, spouses, links }: Props) {
           <DetailPanel
             person={selectedPerson}
             spouse={spouseMap.get(selectedPerson.id)}
-            links={[(linksMap.get(selectedPerson.id) ?? []),(spouseMap.get(selectedPerson.id) ? (linksMap.get(spouseMap.get(selectedPerson.id)!.id)??[]):[]),
-            ]}
+            links={ [ ...(linksMap.get(selectedPerson.id) ?? []), ...(spouseMap.get(selectedPerson.id) ? (linksMap.get(spouseMap.get(selectedPerson.id)!.id) ?? []) : []) ] }
             genLabel={selectedGenLabel}
             onClose={() => setSelectedPersonId(null)}
           />
