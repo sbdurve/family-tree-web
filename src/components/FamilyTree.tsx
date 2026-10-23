@@ -462,8 +462,8 @@ export default function FamilyTree({ people, spouses, links }: Props) {
     const altName = person?.alt_name?.trim() ?? '';
 
     const personLinks = linksMap.get(personId) ?? [];
-    const hasDetails = !!(spouse || personLinks.length > 0);
-
+    const spouseLinks = spouse ? (linksMap.get(spouse.id) ?? []) : [];
+    const hasDetails = !!(spouse || personLinks.length > 0 || spouseLinks.length > 0);
     return (
       <g>
         <foreignObject
@@ -737,7 +737,8 @@ export default function FamilyTree({ people, spouses, links }: Props) {
           <DetailPanel
             person={selectedPerson}
             spouse={spouseMap.get(selectedPerson.id)}
-            links={linksMap.get(selectedPerson.id) ?? []}
+            links={[(linksMap.get(selectedPerson.id) ?? []),(spouseMap.get(selectedPerson.id) ? (linksMap.get(spouseMap.get(selectedPerson.id)!.id)??[]):[]),
+            ]}
             genLabel={selectedGenLabel}
             onClose={() => setSelectedPersonId(null)}
           />
