@@ -302,7 +302,7 @@ export default function AdminPage() {
         <h1 className="text-3xl font-bold text-tan-800">Admin Dashboard</h1>
           <div className="flex items-center gap-4">
               <a
-              href="PASTE_YOUR_GITHUB_ACTIONS_WORKFLOW_URL_HERE"
+              href="https://github.com/sbdurve/family-tree-web/actions/runs/39613156653"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
