@@ -16,7 +16,6 @@
     "import:remote": "wrangler d1 execute family-tree-db --remote --file=migrations/0002_import.sql"
   },
   "dependencies": {
-    "html2canvas": "^1.4.1",
     "next": "^15.2.0",
     "react": "^19",
     "react-d3-tree": "^3.6.6",
