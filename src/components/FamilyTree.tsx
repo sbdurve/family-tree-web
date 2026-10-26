@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
+import html2canvas from 'html2canvas';
 import type { RawNodeDatum, CustomNodeElementProps } from 'react-d3-tree';
 
 const Tree = dynamic(
@@ -356,7 +357,7 @@ export default function FamilyTree({ people, spouses, links }: Props) {
   const [search, setSearch] = useState('');
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
-
+  const [takingScreenshot, setTakingScreenshot] = useState(false);
   const highlightedPosRef = useRef<{ x: number; y: number } | null>(null);
 
   const INITIAL_ZOOM = 0.5;
@@ -409,6 +410,34 @@ export default function FamilyTree({ people, spouses, links }: Props) {
     setTranslate({ x: (containerRef.current?.clientWidth ?? 800) / 2, y: 60 });
   }
 
+    async function handleScreenshot() {
+    if (!containerRef.current || takingScreenshot) return;
+  
+    setTakingScreenshot(true);
+  
+    try {
+      const canvas = await html2canvas(containerRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+      });
+  
+      const link = document.createElement('a');
+  
+      link.download = `family-tree-${new Date()
+        .toISOString()
+        .slice(0, 10)}.png`;
+  
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('Screenshot failed:', error);
+      alert('Could not create screenshot.');
+    } finally {
+      setTakingScreenshot(false);
+    }
+  }
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     const term = search.trim().toLowerCase();
@@ -640,25 +669,45 @@ export default function FamilyTree({ people, spouses, links }: Props) {
     <div className="w-full">
       <style>{GLOBAL_STYLES}</style>
 
-      {/* Search bar */}
-      <form onSubmit={handleSearch} className="flex gap-2 mb-4 max-w-sm">
-        <input
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by name…"
-          className="flex-1 border border-tan-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent-400"
-        />
-        <button type="submit" className="bg-accent-600 hover:bg-accent-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-colors">
-          Find
-        </button>
-        {highlightedId && (
-          <button type="button" onClick={() => { setHighlightedId(null); setSearch(''); }} className="text-sm text-tan-400 hover:text-tan-600 px-2">
-            ✕
-          </button>
-        )}
-      </form>
-
+  {/* Search bar */}
+  <form onSubmit={handleSearch} className="flex flex-wrap gap-2 mb-4">
+    <input
+      type="search"
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      placeholder="Search by name…"
+      className="flex-1 min-w-[180px] border border-tan-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent-400"
+    />
+  
+    <button
+      type="submit"
+      className="bg-accent-600 hover:bg-accent-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-colors"
+    >
+      Find
+    </button>
+  
+    <button
+      type="button"
+      onClick={handleScreenshot}
+      disabled={takingScreenshot}
+      className="bg-green-600 hover:bg-green-500 disabled:bg-green-300 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
+    >
+      {takingScreenshot ? 'Preparing…' : '📷 Take Screenshot'}
+    </button>
+  
+    {highlightedId && (
+      <button
+        type="button"
+        onClick={() => {
+          setHighlightedId(null);
+          setSearch('');
+        }}
+        className="text-sm text-tan-400 hover:text-tan-600 px-2"
+      >
+        ✕
+      </button>
+    )}
+  </form>
       {/* Tree container */}
       <div
         ref={containerRef}
