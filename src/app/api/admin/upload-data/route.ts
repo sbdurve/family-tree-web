@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import * as XLSX from 'xlsx';
+import { isAdmin } from '@/lib/auth';
 import { getDB, getR2 } from '@/lib/db';
 
 export const runtime = 'edge';
@@ -32,6 +33,12 @@ function readSheet(
 }
 
 export async function POST(request: Request) {
+  if (!isAdmin(request)) {
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
   try {
     const formData = await request.formData();
     const file = formData.get('file');
