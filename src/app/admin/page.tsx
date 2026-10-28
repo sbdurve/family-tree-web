@@ -313,7 +313,7 @@ export default function AdminPage() {
       body: formData,
     });
 
-    const result = await res.json();
+    const result = await res.json() as { error?: string; success?: boolean; message?: string };
 
     if (!res.ok) {
       throw new Error(result.error || 'Upload failed');
