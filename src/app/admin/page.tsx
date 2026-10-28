@@ -288,7 +288,47 @@ export default function AdminPage() {
   ];
 
   const inputCls = 'w-full border border-tan-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent-400';
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState('');
+  async function uploadDataFile() {
+  if (!uploadFile) {
+    setUploadMessage('Please select an Excel file.');
+    return;
+  }
 
+  if (!confirm('Replace the existing data.xlsx in R2?')) {
+    return;
+  }
+
+  setUploading(true);
+  setUploadMessage('');
+
+  try {
+    const formData = new FormData();
+    formData.append('file', uploadFile);
+
+    const res = await fetch('/api/admin/upload-data', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.error || 'Upload failed');
+    }
+
+    setUploadMessage('data.xlsx uploaded successfully.');
+    setUploadFile(null);
+  } catch (error) {
+    setUploadMessage(
+      error instanceof Error ? error.message : 'Upload failed'
+    );
+  } finally {
+    setUploading(false);
+  }
+}
   return (
     <div className="max-w-6xl mx-auto">
       {/* Toast */}
@@ -301,6 +341,9 @@ export default function AdminPage() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-tan-800">Admin Dashboard</h1>
           <div className="flex items-center gap-4">
+          <input id="data-file-upload" type="file" accept=".xlsx" className="hidden" onChange={(e) => { setUploadFile(e.target.files?.[0] ?? null); setUploadMessage(''); }} />
+          <label htmlFor="data-file-upload" className="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" > {uploadFile ? uploadFile.name : 'Choose data.xlsx'} </label>
+          <button type="button" onClick={uploadDataFile} disabled={!uploadFile || uploading} className="bg-purple-600 hover:bg-purple-500 disabled:bg-tan-300 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" > {uploading ? 'Uploading...' : 'Upload to R2'} </button>
               <a
               href="https://github.com/sbdurve/family-tree-web/actions/runs/39613156653"
               target="_blank"
@@ -317,7 +360,7 @@ export default function AdminPage() {
             </button>
        </div>
       </div>
-
+      {uploadMessage && ( <div className="mb-4 px-4 py-3 rounded-lg bg-tan-100 text-tan-700 text-sm"> {uploadMessage} </div> )}
       {/* Tabs */}
       <div className="flex gap-1 mb-6 border-b border-tan-200">
         {tabs.map((t) => (
