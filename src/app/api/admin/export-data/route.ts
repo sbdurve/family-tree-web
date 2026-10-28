@@ -1,10 +1,16 @@
 import * as XLSX from 'xlsx';
 import { getDB, getR2 } from '@/lib/db';
-
+import { isAdmin } from '@/lib/auth';
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
+  if (!isAdmin(request)) {
+    return Response.json(
+      { error: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
   try {
     const db = getDB();
 
