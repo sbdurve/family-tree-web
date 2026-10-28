@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getR2 } from '@/lib/cloudflare';
+import { getR2 } from '@/lib/db';
 
 export const runtime = 'edge';
 
