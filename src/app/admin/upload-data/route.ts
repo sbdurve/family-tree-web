@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getR2 } from '@/lib/db';
 
 export const runtime = 'edge';
-
+export const dynamic = 'force-dynamic';
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
