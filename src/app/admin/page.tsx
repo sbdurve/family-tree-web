@@ -354,9 +354,7 @@ export default function AdminPage() {
           <label htmlFor="data-file-upload" className="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" > {uploadFile ? uploadFile.name : 'Choose data.xlsx'} </label>
           <button type="button" onClick={uploadDataFile} disabled={!uploadFile || uploading} className="bg-purple-600 hover:bg-purple-500 disabled:bg-tan-300 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" > {uploading ? 'Uploading...' : 'Upload to R2'} </button>
               <a
-              href="https://github.com/sbdurve/family-tree-web/actions/runs/39613156653"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/api/admin/export-data"
               className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
               Backup D1 to Excel
