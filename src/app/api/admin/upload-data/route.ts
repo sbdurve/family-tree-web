@@ -144,4 +144,184 @@ export async function POST(request: Request) {
     for (const row of mainRows) {
       const personId = safeString(row.person);
       const fullName = safeString(row.person_full);
-      const parentId = 
+      const parentId = safeString(row.parent);
+      const tooltip = safeString(row.tooltip);
+      const spouseId = safeString(row.spouse);
+      const spouseFull = safeString(row.spouse_full);
+
+      if (!personId) {
+        continue;
+      }
+
+      const imageUrl = imageMap.get(personId) ?? '';
+
+      const status = generationPlaceholders.has(personId)
+        ? 'hidden'
+        : 'approved';
+
+      statements.push(
+        db.prepare(
+          `INSERT OR IGNORE INTO people
+           (
+             id,
+             full_name,
+             parent_id,
+             tooltip,
+             image_url,
+             status
+           )
+           VALUES (?, ?, ?, ?, ?, ?)`
+        ).bind(
+          personId,
+          fullName || personId,
+          parentId || null,
+          tooltip,
+          imageUrl,
+          status
+        )
+      );
+
+      peopleCount++;
+
+      if (spouseId && spouseFull) {
+        const spouseImageUrl = imageMap.get(spouseId) ?? '';
+
+        statements.push(
+          db.prepare(
+            `INSERT OR IGNORE INTO spouses
+             (
+               id,
+               full_name,
+               person_id,
+               image_url
+             )
+             VALUES (?, ?, ?, ?)`
+          ).bind(
+            spouseId,
+            spouseFull,
+            personId,
+            spouseImageUrl
+          )
+        );
+
+        spouseCount++;
+      }
+    }
+
+    /*
+     * Import links from the links sheet.
+     *
+     * links.person  -> person_id
+     * links.link    -> url
+     * links.tooltip -> description and display_html
+     */
+    for (const row of linkRows) {
+      const personId = safeString(row.person);
+      const url = safeString(row.link);
+      const description = safeString(row.tooltip);
+
+      if (!personId || !url) {
+        continue;
+      }
+
+      statements.push(
+        db.prepare(
+          `INSERT INTO links
+           (
+             person_id,
+             url,
+             description,
+             display_html
+           )
+           VALUES (?, ?, ?, ?)`
+        ).bind(
+          personId,
+          url,
+          description,
+          description
+        )
+      );
+
+      linkCount++;
+    }
+
+    /*
+     * Import galleries from the gdrives sheet.
+     *
+     * gdrives.description -> description
+     * gdrives.link        -> gdrive_link
+     */
+    for (let index = 0; index < gdriveRows.length; index++) {
+      const row = gdriveRows[index];
+
+      const description = safeString(row.description);
+      const link = safeString(row.link);
+
+      if (!description || !link) {
+        continue;
+      }
+
+      statements.push(
+        db.prepare(
+          `INSERT INTO galleries
+           (
+             description,
+             gdrive_link,
+             display_order
+           )
+           VALUES (?, ?, ?)`
+        ).bind(
+          description,
+          link,
+          index
+        )
+      );
+
+      galleryCount++;
+    }
+
+    /*
+     * Run all D1 replacements as one batch.
+     */
+    await db.batch(statements);
+
+    /*
+     * Save the successfully parsed workbook in R2 as data.xlsx.
+     */
+    const r2 = getR2();
+
+    await r2.put('data.xlsx', fileBuffer, {
+      httpMetadata: {
+        contentType:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      },
+      customMetadata: {
+        originalName: file.name,
+        uploadedAt: new Date().toISOString(),
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: 'data.xlsx uploaded to R2 and imported into D1',
+      imported: {
+        people: peopleCount,
+        spouses: spouseCount,
+        links: linkCount,
+        galleries: galleryCount,
+      },
+    });
+  } catch (error) {
+    console.error('Upload and import error:', error);
+
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Failed to upload and import data.xlsx',
+      },
+      { status: 500 }
+    );
+  }
+}
