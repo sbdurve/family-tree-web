@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: 'data.xlsx uploaded successfully',
+      message: 'data.xlsx uploaded to R2 and imported into D1',
     });
   } catch (error) {
     console.error('Upload data.xlsx error:', error);
