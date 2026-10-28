@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getR2 } from '@/lib/db';
+import * as XLSX from 'xlsx';
+
+import { getDB, getR2 } from '@/lib/db';
 
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
