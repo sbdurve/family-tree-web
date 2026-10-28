@@ -1,4 +1,5 @@
 export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 import { getDB } from '@/lib/db';
 
@@ -21,12 +22,19 @@ export async function GET() {
         .all(),
     ]);
 
-    return Response.json({
-      people: peopleRes.results,
-      spouses: spousesRes.results,
-      links: linksRes.results,
-      galleries: galleriesRes.results,
-    });
+    return Response.json(
+      {
+        people: peopleRes.results,
+        spouses: spousesRes.results,
+        links: linksRes.results,
+        galleries: galleriesRes.results,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+        },
+      }
+    );
   } catch (err) {
     console.error('GET /api/tree error:', err);
     return Response.json({ error: 'Failed to fetch tree data' }, { status: 500 });
