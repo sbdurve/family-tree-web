@@ -313,10 +313,19 @@ export default function AdminPage() {
       body: formData,
     });
 
-    const result = await res.json() as { error?: string; success?: boolean; message?: string };
+    const text = await res.text();
 
+    let result: { error?: string; success?: boolean; message?: string } = {};
+    
+    if (text) {
+      try {
+        result = JSON.parse(text);
+      } catch {
+        throw new Error('Upload API returned an invalid response');
+      }
+    }
     if (!res.ok) {
-      throw new Error(result.error || 'Upload failed');
+      throw new Error(result.error || `Upload failed (${res.status})`);
     }
 
     setUploadMessage('data.xlsx uploaded successfully.');
