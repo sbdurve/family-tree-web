@@ -328,7 +328,7 @@ export default function AdminPage() {
       throw new Error(result.error || `Upload failed (${res.status})`);
     }
 
-    setUploadMessage('data.xlsx uploaded successfully.');
+    setUploadMessage(result.message || 'data.xlsx uploaded successfully.');
     setUploadFile(null);
   } catch (error) {
     setUploadMessage(
