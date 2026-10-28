@@ -308,7 +308,7 @@ export default function AdminPage() {
     const formData = new FormData();
     formData.append('file', uploadFile);
 
-    const res = await fetch('/admin/upload-data', {
+    const res = await fetch('/api/admin/upload-data', {
       method: 'POST',
       body: formData,
     });
